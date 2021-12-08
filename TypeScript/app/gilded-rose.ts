@@ -16,9 +16,11 @@ export class GildedRose {
   constructor(items = [] as Array<Item>) {
     this.items = items;
   }
+  // Strategy pattern
   updateQuality() {
     this.items.forEach((item) => {
       switch (true) {
+        // regex based on contents of the string
         case /Sulfuras, Hand of Ragnaros/.test(item.name):
           break;
 
@@ -29,7 +31,7 @@ export class GildedRose {
         case /Aged Brie/.test(item.name):
           this.updateQualityForAgedBrieItem(item);
           break;
-
+        // Covers all the cases when the string contains "Conjured"
         case /Conjured/.test(item.name):
           this.updateQualityForConjuredItem(item);
           break;
@@ -95,6 +97,7 @@ export class GildedRose {
     }
     item.sellIn -= 1;
   }
+
   oldUpdateQuality() {
     for (let i = 0; i < this.items.length; i++) {
       if (
