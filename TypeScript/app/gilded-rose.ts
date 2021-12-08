@@ -56,11 +56,13 @@ export class GildedRose {
   }
 
   updateQualityForBackstageItem(item: Item) {
-    if (item.sellIn < 11) {
+    if (item.sellIn >= 11) {
+      item.quality += 1;
+    } else if (item.sellIn >= 6 && item.sellIn < 11) {
       item.quality += 2;
-    } else if (item.sellIn < 6) {
+    } else if (item.sellIn >= 1 && item.sellIn < 6) {
       item.quality += 3;
-    } else if (item.sellIn < 0) {
+    } else if (item.sellIn < 1) {
       item.quality = 0;
     }
     if (item.quality > 50) {
