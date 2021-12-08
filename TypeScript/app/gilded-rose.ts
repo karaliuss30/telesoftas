@@ -43,7 +43,7 @@ export class GildedRose {
   }
 
   updateQualityForAgedBrieItem(item: Item) {
-    if (item.sellIn >= 0) {
+    if (item.sellIn > 0) {
       item.quality += 1;
     } else {
       item.quality += 2;
@@ -69,7 +69,18 @@ export class GildedRose {
     item.sellIn -= 1;
   }
 
-  updateQualityForDefaultItem(item: Item) {}
+  updateQualityForDefaultItem(item: Item) {
+    if (item.sellIn > 0 && item.quality > 0) {
+      item.quality -= 1;
+    } else if (item.sellIn <= 0 && item.quality > 0) {
+      item.quality -= 2;
+    }
+
+    if (item.quality < 0) {
+      item.quality = 0;
+    }
+    item.sellIn -= 1;
+  }
 
   updateQualityForConjuredItem(item: Item) {}
 }
