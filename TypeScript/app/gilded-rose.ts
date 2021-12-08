@@ -11,31 +11,35 @@ export class Item {
 }
 
 export class GildedRose {
-  static items: Array<Item>;
+  items: Array<Item>;
 
   constructor(items = [] as Array<Item>) {
-    items = items;
+    this.items = items;
   }
   updateQuality() {
-    GildedRose.items.forEach((item) => {
+    this.items.forEach((item) => {
       switch (true) {
         case /Sulfuras, Hand of Ragnaros/.test(item.name):
           break;
 
         case /Backstage passes to a TAFKAL80ETC concert/.test(item.name):
           this.updateQualityForBackstageItem(item);
+          break;
 
         case /Aged Brie/.test(item.name):
           this.updateQualityForAgedBrieItem(item);
+          break;
 
         case /Conjured/.test(item.name):
           this.updateQualityForConjuredItem(item);
+          break;
 
         default:
           this.updateQualityForDefaultItem(item);
+          break;
       }
     });
-    return GildedRose.items;
+    return this.items;
   }
 
   updateQualityForAgedBrieItem(item: Item) {
