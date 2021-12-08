@@ -11,62 +11,38 @@ export class Item {
 }
 
 export class GildedRose {
-  items: Array<Item>;
+  static items: Array<Item>;
 
   constructor(items = [] as Array<Item>) {
-    this.items = items;
+    items = items;
   }
-
   updateQuality() {
-    this.items.forEach((item) => {
-      if (
-        item.name != "Aged Brie" &&
-        item.name != "Backstage passes to a TAFKAL80ETC concert"
-      ) {
-        if (item.quality > 0) {
-          if (item.name != "Sulfuras, Hand of Ragnaros") {
-            item.quality -= 1;
-          }
-        }
-      } else {
-        if (item.quality < 50) {
-          item.quality += 1;
-          if (item.name == "Backstage passes to a TAFKAL80ETC concert") {
-            if (item.sellIn < 11) {
-              if (item.quality < 50) {
-                item.quality += 1;
-              }
-            }
-            if (item.sellIn < 6) {
-              if (item.quality < 50) {
-                item.quality += 1;
-              }
-            }
-          }
-        }
-      }
-      if (item.name != "Sulfuras, Hand of Ragnaros") {
-        item.sellIn -= 1;
-      }
-      if (item.sellIn < 0) {
-        if (item.name != "Aged Brie") {
-          if (item.name != "Backstage passes to a TAFKAL80ETC concert") {
-            if (item.quality > 0) {
-              if (item.name != "Sulfuras, Hand of Ragnaros") {
-                item.quality -= 1;
-              }
-            }
-          } else {
-            item.quality = item.quality - item.quality;
-          }
-        } else {
-          if (item.quality < 50) {
-            item.quality -= 1;
-          }
-        }
+    GildedRose.items.forEach((item) => {
+      switch (true) {
+        case /Sulfuras, Hand of Ragnaros/.test(item.name):
+          break;
+
+        case /Backstage passes to a TAFKAL80ETC concert/.test(item.name):
+          this.updateQualityForBackstageItem(item);
+
+        case /Aged Brie/.test(item.name):
+          this.updateQualityForAgedBrieItem(item);
+
+        case /Conjured/.test(item.name):
+          this.updateQualityForConjuredItem(item);
+
+        default:
+          this.updateQualityForDefaultItem(item);
       }
     });
-
-    return this.items;
+    return GildedRose.items;
   }
+
+  updateQualityForAgedBrieItem(item: Item) {}
+
+  updateQualityForBackstageItem(item: Item) {}
+
+  updateQualityForDefaultItem(item: Item) {}
+
+  updateQualityForConjuredItem(item: Item) {}
 }
