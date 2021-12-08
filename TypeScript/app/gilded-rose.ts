@@ -16,7 +16,7 @@ export class GildedRose {
   constructor(items = [] as Array<Item>) {
     items = items;
   }
-  updateQuality() {
+  UpdateQuality() {
     GildedRose.items.forEach((item) => {
       switch (true) {
         case /Sulfuras, Hand of Ragnaros/.test(item.name):
@@ -38,7 +38,18 @@ export class GildedRose {
     return GildedRose.items;
   }
 
-  updateQualityForAgedBrieItem(item: Item) {}
+  updateQualityForAgedBrieItem(item: Item) {
+    if (item.sellIn >= 0) {
+      item.quality += 1;
+    } else {
+      item.quality += 2;
+    }
+
+    if (item.quality > 50) {
+      item.quality = 50;
+    }
+    item.sellIn -= 1;
+  }
 
   updateQualityForBackstageItem(item: Item) {}
 
