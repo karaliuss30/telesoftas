@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 import { Item, GildedRose } from "../app/gilded-rose";
 import YesNoDto from './Interfaces/YesNoDto';
 import * as fs from 'fs';
+import { inherits } from 'util';
 const items = [
     new Item("+5 Dexterity Vest", 10, 20), //
     new Item("Aged Brie", 2, 0), //
@@ -22,11 +23,17 @@ const apiUrl = 'https://yesno.wtf/api';
 const firstProcessValue: number = parseInt(process.argv[2]);
 const secondProcessValue: number = parseInt(process.argv[3]);
 
-for (let i = 0; i < firstProcessValue; i ++) {
-  callApi(secondProcessValue);
-  gildedRose.updateQuality();
-  console.log(gildedRose.items)
+async function init() {
+  if (fs.existsSync(logFile))
+  fs.unlinkSync(logFile)
+
+  for (let i = 0; i < firstProcessValue; i ++) {
+    await callApi(secondProcessValue);
+    gildedRose.updateQuality();
+  }
 }
+
+
 
 async function callApi(numberOfCalls: number) {
   if (numberOfCalls === 0) {
@@ -34,9 +41,9 @@ async function callApi(numberOfCalls: number) {
   }
   const newCallsNumber = await Promise.all([...Array(numberOfCalls)].map(async() => await fetchResponse()))
   .then(responses => responses.filter(response => response?.answer === 'yes').length);
-  console.log(newCallsNumber);
+  appendToFile(newCallsNumber.toString());
   await callApi(newCallsNumber);
-  
+
 }
 
 async function fetchResponse(): Promise<YesNoDto | undefined> {
@@ -48,4 +55,12 @@ async function fetchResponse(): Promise<YesNoDto | undefined> {
     return;
   }
 }
+async function appendToFile(value: string) {
+  fs.appendFile(logFile, value + '\n', function (err) {
+    if (err) 
+      throw err;
+  });
+}
+
+init();
 
