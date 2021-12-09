@@ -25,14 +25,16 @@ const secondProcessValue: number = parseInt(process.argv[3]);
 for (let i = 0; i < firstProcessValue; i ++) {
   callApi(secondProcessValue);
   gildedRose.updateQuality();
+  console.log(gildedRose.items)
 }
 
 async function callApi(numberOfCalls: number) {
   if (numberOfCalls === 0) {
     return;
   }
-  const newCallsNumber = await Promise.all([...Array(5)].map(async() => await fetchResponse()))
+  const newCallsNumber = await Promise.all([...Array(numberOfCalls)].map(async() => await fetchResponse()))
   .then(responses => responses.filter(response => response?.answer === 'yes').length);
+  console.log(newCallsNumber);
   await callApi(newCallsNumber);
   
 }
