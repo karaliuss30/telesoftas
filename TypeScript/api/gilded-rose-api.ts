@@ -1,5 +1,4 @@
 import { Item, GildedRose } from "../app/gilded-rose";
-
 const items = [
     new Item("+5 Dexterity Vest", 10, 20), //
     new Item("Aged Brie", 2, 0), //
@@ -12,12 +11,16 @@ const items = [
     new Item("Conjured Mana Cake", 3, 6),
   ];
 
-const firstProcessValue = parseInt(process.argv[2]);
-const secondProcessValue = parseInt(process.argv[3]);
+const logFile = 'log.txt';
+const apiUrl = 'https://yesno.wtf/api';
+
+const firstProcessValue: Number = parseInt(process.argv[2]);
+const secondProcessValue: Number = parseInt(process.argv[3]);
 
 for(let i = 0; i < firstProcessValue; i++) {
-    console.log(i);
 }
 
+function callApi(times: Number) {
+}
 
 
