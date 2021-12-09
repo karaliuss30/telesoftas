@@ -41,7 +41,7 @@ async function callApi(numberOfCalls: number) {
   }
   const newCallsNumber = await Promise.all([...Array(numberOfCalls)].map(async() => await fetchResponse()))
   .then(responses => responses.filter(response => response?.answer === 'yes').length);
-  appendToFile(newCallsNumber.toString());
+  await appendToFile(newCallsNumber.toString());
   await callApi(newCallsNumber);
 
 }
